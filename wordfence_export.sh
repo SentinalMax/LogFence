@@ -2,6 +2,7 @@
 
 echo "Whats the name of your MySQL database?"
 read DATABASE_NAME
+
 FILENAME="outputFile.csv"
 
 MYSQL_QUERY_1="SHOW VARIABLES LIKE \"secure_file_priv\""
@@ -13,4 +14,5 @@ echo $OUTPUT_FILE
 
 MYSQL_QUERY_2="TABLE wp_wfhits INTO OUTFILE '$OUTPUT_FILE' FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '\"' ESCAPED BY '' LINES TERMINATED BY '\n'"
 
-sudo mysql -uroot -D $DATABASE_NAME -e "$MYSQL_QUERY_2"
+ATTACK_INFO=$(sudo mysql -uroot -D $DATABASE_NAME -e "$MYSQL_QUERY_2")
+less $ATTACK_INFO
