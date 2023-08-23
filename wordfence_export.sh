@@ -23,7 +23,7 @@ if [[ -f "$OUTPUT_FILE" ]]; then
     echo "$OUTPUT_FILE exists." 
     exit
 else
-    end
+    return
 fi
 
 #MYSQL_QUERY_2="TABLE wp_wfhits INTO OUTFILE '$OUTPUT_FILE' FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '\"' ESCAPED BY '' LINES TERMINATED BY '\n'"
