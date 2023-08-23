@@ -27,7 +27,6 @@ else
     sudo mysql -uroot -D $DATABASE_NAME -e "$MYSQL_QUERY_2"
 
     cd $PSEUDO_OUTPUT_FILE
-    less $FILENAME
+    echo "Output file stored: ${PWD}"
+    #less $FILENAME
 fi
-
-#MYSQL_QUERY_2="TABLE wp_wfhits INTO OUTFILE '$OUTPUT_FILE' FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '\"' ESCAPED BY '' LINES TERMINATED BY '\n'"
