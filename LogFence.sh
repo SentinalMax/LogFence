@@ -71,13 +71,15 @@ else
         # Check if python3 exists
         if [[ "$(python3 --version)" != 3.10.7 ]]
         then
-            echo "python exists"
+            # Setup webserver
+            echo "${PWD}"
+            python3 -m http.server
         else
             echo "python3 does not exist, installing..."
         fi
     elif [[ "$ANSWER_BOOL" == "n" ]]
     then
-        echo "no"
+        echo "exiting..."
     fi
     
 fi
