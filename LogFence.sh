@@ -69,15 +69,21 @@ else
     if [[ "$ANSWER_BOOL" == "y" ]]
     then
         # Check if python3 exists
-        if [[ "$(python3 --version)" != 3.10.7 ]]
-        then
-            # Setup webserver
-            IP=$(curl ifconfig.me/ip)
-            echo "You can fetch your file with the following command: wget http://$IP:8000$FILENAME"
-            python3 -m http.server
-        else
-            echo "python3 does not exist, installing..."
-        fi
+        check_python3 () {
+            if [[ "$(python3 --version)" != 3.10.7 ]]
+            then
+                # Setup webserver
+                IP=$(curl ifconfig.me/ip)
+                echo "You can fetch your file with the following command: wget http://$IP:8000/$FILENAME"
+                python3 -m http.server
+            else
+                echo "python3 does not exist, installing..."
+                sudo apt install python3
+                check_python3
+            fi
+        }
+        check_python3
+
     elif [[ "$ANSWER_BOOL" == "n" ]]
     then
         echo "exiting..."
