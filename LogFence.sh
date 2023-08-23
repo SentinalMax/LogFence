@@ -72,7 +72,9 @@ else
         if [[ "$(python3 --version)" != 3.10.7 ]]
         then
             # Setup webserver
-            echo "${PWD}"
+            echo "You can fetch your file with the following command \n"
+            IP=$(curl ifconfig.me/ip)
+            echo "wget http://$IP:8000/$OUTPUT_FILE"
             python3 -m http.server
         else
             echo "python3 does not exist, installing..."
