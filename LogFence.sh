@@ -74,7 +74,7 @@ else
             then
                 # Setup webserver
                 IP=$(curl ifconfig.me/ip)
-                echo "You can fetch your file with the following command: wget http://$IP:8000/$FILENAME"
+                echo "Get your file with the this command: wget http://$IP:8000/$FILENAME"
                 python3 -m http.server
             else
                 echo "python3 does not exist, please install!"
