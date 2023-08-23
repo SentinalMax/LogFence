@@ -78,6 +78,7 @@ else
                 python3 -m http.server
             else
                 echo "python3 does not exist, please install!"
+                exit
             fi
         }
         check_python3
@@ -85,6 +86,7 @@ else
     elif [[ "$ANSWER_BOOL" == "n" ]]
     then
         echo "exiting..."
+        exit
     fi
     
 fi
