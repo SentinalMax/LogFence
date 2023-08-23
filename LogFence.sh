@@ -69,7 +69,16 @@ else
     if [[ "$ANSWER_BOOL" == "y" ]]
     then
         # Check if python3 exists
-        command -v python3 >/dev/null 2>&1 && echo "Python 3 is installed"
+        PYTHON_EXISTS=$(command -v python3 >/dev/null 2>&1)
+
+        if [[ $PYTHON_EXISTS == true ]]
+        then
+
+            echo "python3 exists"
+        elif [[ $PYTHON_EXISTS == false ]]
+        then
+            echo "python3 doesn't exists, installing..."
+        fi
         # Create a python server
     elif [[ "$ANSWER_BOOL" == "n" ]]
     then
