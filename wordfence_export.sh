@@ -27,6 +27,33 @@ else
     sudo mysql -uroot -D $DATABASE_NAME -e "$MYSQL_QUERY_2"
 
     cd $PSEUDO_OUTPUT_FILE
+
+    # Convert UNIX time to HR (Human Readable)
+
+    # Convert Hexadecimals to IP addresses
+
+    # Function to convert IPv4-mapped IPv6 string to IPv4
+    convert_ip() {
+        local hex_ip="$1"
+        printf "%d.%d.%d.%d" \
+            $(( 0x${hex_ip: -8:2} )) \
+            $(( 0x${hex_ip: -6:2} )) \
+            $(( 0x${hex_ip: -4:2} )) \
+            $(( 0x${hex_ip: -2:2} ))
+    }
+
+    # Process the CSV file with awk
+    awk -F',' -v OFS=',' '
+    NR == 1 { print; next }  # Print header and skip to next line
+    {
+        ip_hex = substr($4, 2, length($4) - 2);  # Remove double quotes
+        ip_dec = "'$(convert_ip $ip_hex)'";  # Call bash function for conversion
+        $4 = "\"" ip_dec "\"";  # Replace the field
+        print
+    }' $FILENAME
+
+
+
     echo "Output file stored: ${PWD}"
     #less $FILENAME
 fi
