@@ -62,12 +62,14 @@ else
     echo "Output file stored: ${PWD}"
 
     echo "Would you like to transfer the file to another machine: y/n"
-    read BOOLEAN
+    read ANSWER_BOOL
 
-    if [[ "$BOOLEAN" == "y" ]]
+    ANSWER_BOOL=$(echo "$ANSWER_BOOL" | tr '[:upper:]' '[:lower:]')
+
+    if [[ "$ANSWER_BOOL" == "y" ]]
     then
         echo "yes"
-    elif [[ "$BOOLEAN" == "n" ]]
+    elif [[ "$ANSWER_BOOL" == "n" ]]
     then
         echo "no"
     fi
