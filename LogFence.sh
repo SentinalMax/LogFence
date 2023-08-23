@@ -77,9 +77,7 @@ else
                 echo "You can fetch your file with the following command: wget http://$IP:8000/$FILENAME"
                 python3 -m http.server
             else
-                echo "python3 does not exist, installing..."
-                sudo apt install python3
-                check_python3
+                echo "python3 does not exist, please install!"
             fi
         }
         check_python3
