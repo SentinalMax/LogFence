@@ -68,10 +68,12 @@ else
 
     if [[ "$ANSWER_BOOL" == "y" ]]
     then
-        echo "yes"
+        # Check if python3 exists
+        command -v python3 >/dev/null 2>&1 && echo "Python 3 is installed"
+        # Create a python server
     elif [[ "$ANSWER_BOOL" == "n" ]]
     then
         echo "no"
     fi
-    #less $FILENAME
+    
 fi
