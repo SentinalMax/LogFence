@@ -60,5 +60,16 @@ else
     echo "$MODIFIED_DATA" > $FILENAME
 
     echo "Output file stored: ${PWD}"
+
+    echo "Would you like to transfer the file to another machine: y/n"
+    read BOOLEAN
+
+    if [[ "$BOOLEAN" == "y" ]]
+    then
+        echo "yes"
+    elif [[ "$BOOLEAN" == "n" ]]
+    then
+        echo "no"
+    fi
     #less $FILENAME
 fi
