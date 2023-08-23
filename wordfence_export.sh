@@ -47,7 +47,7 @@ else
 
         $4 = "\"" ip_dec "\"";  # Replace the field
         print
-    }' your_file.csv
+    }' $FILENAME
 
 
     echo "Output file stored: ${PWD}"
