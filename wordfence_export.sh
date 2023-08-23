@@ -50,7 +50,7 @@ else
         ip_dec = "'$(convert_ip $ip_hex)'";  # Call bash function for conversion
         $4 = "\"" ip_dec "\"";  # Replace the field
         print
-    }' $FILENAME
+    }' > $FILENAME
 
 
 
