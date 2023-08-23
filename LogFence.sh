@@ -69,17 +69,12 @@ else
     if [[ "$ANSWER_BOOL" == "y" ]]
     then
         # Check if python3 exists
-        PYTHON_EXISTS=$(which python3)
-
-        if [[ $PYTHON_EXISTS == 0 ]]
+        if [[ "$(python3 --version)" != 3.10.7 ]]
         then
-
-            echo "python3 exists"
-        elif [[ $PYTHON_EXISTS == 1 ]]
-        then
-            echo "python3 doesn't exists, installing..."
+            echo "python exists"
+        else
+            echo "python3 does not exist, installing..."
         fi
-        # Create a python server
     elif [[ "$ANSWER_BOOL" == "n" ]]
     then
         echo "no"
