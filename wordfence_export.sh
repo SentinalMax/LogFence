@@ -20,8 +20,9 @@ OUTPUT_FILE=$PSEUDO_OUTPUT_FILE"$FILENAME"
 
 # Check if file already exists in path
 if [[ -f "$OUTPUT_FILE" ]]; then
-    echo "$OUTPUT_FILE exists." && exit
-elif
+    echo "$OUTPUT_FILE exists." 
+    exit
+else
     end
 fi
 
