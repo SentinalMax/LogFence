@@ -28,14 +28,23 @@ else
 
     cd $PSEUDO_OUTPUT_FILE
 
-    # Convert UNIX time to HR (Human Readable)
-
-    # Convert Hexadecimals to IP addresses
-
-    # Process the CSV file with awk
-    awk -F',' -v OFS=',' '
+    # Convert UNIX time to HR (Human Readable) & Hexadecimals to IP addresses with awk
+    MODIFIED_DATA=$(awk -F',' -v OFS=',' '
     NR == 1 { print; next }  # Print header and skip to next line
     {
+
+        # Convert UNIX timestamps to human-readable format
+        # ------------------------------------------------
+        
+        attackLogTime = substr($2, 2, length($2) - 2)  # Remove double quotes
+        $2 = "\"" strftime("%Y-%m-%d %H:%M:%S", attackLogTime) "\""
+
+        ctime = substr($3, 2, length($3) - 2)  # Remove double quotes
+        $3 = "\"" strftime("%Y-%m-%d %H:%M:%S", ctime) "\""
+
+        # IP Conversion
+        # -------------
+
         ip_hex = substr($4, 2, length($4) - 2);  # Remove double quotes
 
         # Split the hexadecimal string to get the last 8 characters
@@ -47,8 +56,10 @@ else
 
         $4 = "\"" ip_dec "\"";  # Replace the field
         print
-    }' $FILENAME
+    }' $FILENAME)
 
+    # Overwrite the original file with the modified data
+    echo "$MODIFIED_DATA" > $FILENAME
 
     echo "Output file stored: ${PWD}"
     #less $FILENAME
