@@ -10,7 +10,7 @@ read FILENAME
 
 # Concat file ext '.csv' to file name
 EXT=".csv"
-FILENAME=$FILENAME$EXT
+FILENAME=$FILENAME"$EXT"
 
 MYSQL_QUERY_1="SHOW VARIABLES LIKE \"secure_file_priv\""
 SECURE_FILE_PATH_RAW=$(sudo mysql -uroot -D $DATABASE_NAME -e "$MYSQL_QUERY_1")
