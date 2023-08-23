@@ -21,6 +21,8 @@ OUTPUT_FILE=$PSEUDO_OUTPUT_FILE"$FILENAME"
 # Check if file already exists in path
 if [[ -f "$OUTPUT_FILE" ]]; then
     echo "$OUTPUT_FILE exists." && exit
+elif
+    end
 fi
 
 #MYSQL_QUERY_2="TABLE wp_wfhits INTO OUTFILE '$OUTPUT_FILE' FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '\"' ESCAPED BY '' LINES TERMINATED BY '\n'"
