@@ -1,5 +1,10 @@
 #!/bin/bash
 
+if [ "$EUID" -ne 0 ]
+  then echo "Please run as root"
+  exit
+fi
+
 echo "Whats the name of your MySQL database:"
 read DATABASE_NAME
 
@@ -19,14 +24,15 @@ main() {
 
 # Check if file already exists in path
 if [[ -f "$OUTPUT_FILE" ]]; then
-    echo "$OUTPUT_FILE exists." 
+    echo "$OUTPUT_FILE already exists." 
     exit
 else
     MYSQL_QUERY_2="SELECT 'id','attackLogTime','ctime','ip','jsRun','statusCode','userID','newVisit','URL','referer','UA','action','actionDescription' UNION ALL SELECT id,attackLogTime,ctime,HEX(IP),jsRun,statusCode,userID,newVisit,URL,referer,UA,action,actionDescription FROM wp_wfhits INTO OUTFILE '$OUTPUT_FILE' FIELDS TERMINATED BY ',' ENCLOSED BY '\"' LINES TERMINATED BY '\n'"
     sudo mysql -uroot -D $DATABASE_NAME -e "$MYSQL_QUERY_2"
 
+    # Change dir & set permissions
     cd $PSEUDO_OUTPUT_FILE
-    echo "$PSEUDO_OUTPUT_FILE FILE"
+    sudo chown "${USER:=$(/usr/bin/id -run)}:$USER" "$FILENAME"
 
     # Convert UNIX time to HR (Human Readable) & Hexadecimals to IP addresses with awk
     MODIFIED_DATA=$(awk -F',' -v OFS=',' '
@@ -59,8 +65,7 @@ else
     }' $FILENAME)
 
     # Overwrite the original file with the modified data
-    echo "$MODIFIED_DATA" > $FILENAME
-
+    sudo echo "$MODIFIED_DATA" > $FILENAME
     echo "Output file stored: ${PSEUDO_OUTPUT_FILE}"
 
     echo "Would you like to transfer the file to another machine: y/n"
@@ -74,7 +79,11 @@ else
         check_python3 () {
             if [[ "$(python3 --version)" != 3.10.7 ]]
             then
-                # Setup webserver
+                ## Setup Webserver ##
+
+		# Look for curl
+    		which curl &> /dev/null || sudo apt install curl
+		
                 IP=$(curl ifconfig.me/ip)
                 echo "Get your file with the this command: wget http://$IP:8000/$FILENAME"
                 python3 -m http.server
@@ -87,7 +96,6 @@ else
 
     elif [[ "$ANSWER_BOOL" == "n" ]]
     then
-        echo "exiting..."
         exit
     fi
     
@@ -98,7 +106,7 @@ fi
 # OUTPUT_FILE=$PSEUDO_OUTPUT_FILE"$FILENAME"
 if [[ -z "$PSEUDO_OUTPUT_FILE" ]]
 then
-	# If NULL set output file/dir to temporary dir & move to working dir
+	# If NULL, set output file/dir to temporary dir & move to working dir
 	OUTPUT_FILE="/tmp""/$FILENAME"
 	PSEUDO_OUTPUT_FILE="/tmp"
 	main
