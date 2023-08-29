@@ -14,7 +14,8 @@ MYSQL_QUERY_1="SHOW VARIABLES LIKE \"secure_file_priv\""
 SECURE_FILE_PATH_RAW=$(sudo mysql -uroot -D $DATABASE_NAME -e "$MYSQL_QUERY_1")
 
 PSEUDO_OUTPUT_FILE=$(echo $SECURE_FILE_PATH_RAW | awk '{print $4}')
-OUTPUT_FILE=$PSEUDO_OUTPUT_FILE"$FILENAME"
+
+main() {
 
 # Check if file already exists in path
 if [[ -f "$OUTPUT_FILE" ]]; then
@@ -25,6 +26,7 @@ else
     sudo mysql -uroot -D $DATABASE_NAME -e "$MYSQL_QUERY_2"
 
     cd $PSEUDO_OUTPUT_FILE
+    echo "$PSEUDO_OUTPUT_FILE FILE"
 
     # Convert UNIX time to HR (Human Readable) & Hexadecimals to IP addresses with awk
     MODIFIED_DATA=$(awk -F',' -v OFS=',' '
@@ -59,7 +61,7 @@ else
     # Overwrite the original file with the modified data
     echo "$MODIFIED_DATA" > $FILENAME
 
-    echo "Output file stored: ${PWD}"
+    echo "Output file stored: ${PSEUDO_OUTPUT_FILE}"
 
     echo "Would you like to transfer the file to another machine: y/n"
     read ANSWER_BOOL
@@ -89,4 +91,19 @@ else
         exit
     fi
     
+fi 
+}
+
+# Do main
+# OUTPUT_FILE=$PSEUDO_OUTPUT_FILE"$FILENAME"
+if [[ -z "$PSEUDO_OUTPUT_FILE" ]]
+then
+	# If NULL set output file/dir to temporary dir & move to working dir
+	OUTPUT_FILE="/tmp""/$FILENAME"
+	PSEUDO_OUTPUT_FILE="/tmp"
+	main
+else
+	OUTPUT_FILE=$PSEUDO_OUTPUT_FILE"$FILENAME"
+	main
 fi
+
