@@ -86,6 +86,8 @@ else
 		
                 IP=$(curl ifconfig.me/ip)
                 echo "Get your file with the this command: wget http://$IP:8000/$FILENAME"
+                cd $PSEUDO_OUTPUT_FILE
+                echo $PWD
                 python3 -m http.server
             else
                 echo "python3 does not exist, please install!"
@@ -102,8 +104,7 @@ else
 fi 
 }
 
-# Do main
-# OUTPUT_FILE=$PSEUDO_OUTPUT_FILE"$FILENAME"
+# Main function
 if [[ -z "$PSEUDO_OUTPUT_FILE" ]]
 then
 	# If NULL, set output file/dir to temporary dir & move to working dir
@@ -111,7 +112,7 @@ then
 	PSEUDO_OUTPUT_FILE="/tmp"
 	main
 else
-	OUTPUT_FILE=$PSEUDO_OUTPUT_FILE"$FILENAME"
+	OUTPUT_FILE=$PSEUDO_OUTPUT_FILE"/$FILENAME"
 	main
 fi
 
