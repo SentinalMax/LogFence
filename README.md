@@ -22,6 +22,3 @@ sudo mysql -uroot -D <DATABASE_NAME> -e 'SHOW VARIABLES LIKE "secure_file_priv"'
 ## Function
 
 - This program was developed because I wanted to do some further analysis outside of the Wordfence plugin for wordpress. And I couldn't find any option to export attack logs from ***within*** Wordfence.
-
-- If you're having any issues or have questions about this program you can reach me here: https://avergara.org/index.php/contact
-
